@@ -1,15 +1,18 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-    const NFTMarket = await ethers.getContractFactory("NFTMarket");
-    const NFT = await ethers.getContractFactory("NFT")
+    const NFT = await ethers.getContractFactory("MyToken")
+    const PriceFeed = await ethers.getContractFactory("PriceFeed");
     // Start deployment, returning a promise that resolves to a contract object
-    const nftMarket = await NFTMarket.deploy();
+    const nft = await NFT.deploy("Zeonergy", 2);
 
-    console.log("NFTMarket Contract deployed to address:", nftMarket.address);
+    const price = await PriceFeed.deploy();
 
-    const nft = await NFT.deploy(nftMarket.address);
+    const currentPrice = await price.getLatestPrice()
+
     console.log("NFT Contract deployed to address:", nft.address);
+    console.log("PriceFeed Contract deployed to address:", price.address);
+    console.log("Current Price is ", currentPrice);
 }
 main()
     .then(() => process.exit(0))
