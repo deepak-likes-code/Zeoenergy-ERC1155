@@ -45,6 +45,7 @@ export default function register() {
 
             if (isCreatorRegistered[3]) {
                 console.log('Creator already registered')
+                alert('You are already registered, go create a NFT!')
             } else {
                 const register = await contract.registerCreator(signerAddress, creatorName);
                 console.log(register);
@@ -55,6 +56,28 @@ export default function register() {
         }
     }
 
+
+    const checkIfAlreadyRegistered = async () => {
+
+        const web3Modal = new Web3Modal()
+        const connection = await web3Modal.connect()
+
+        const provider = new ethers.providers.Web3Provider(connection)
+        const ownerWallet = new ethers.Wallet(ownerPrivateKey, provider)
+        console.log(ownerWallet)
+        const signer = await provider.getSigner()
+        // console.log(signer)
+        const signerAddress = await signer.getAddress()
+        console.log(signerAddress)
+
+        let contract = new ethers.Contract(nftaddress, NFT.abi, ownerWallet)
+        const isCreatorRegistered = await contract.registeredCreator(signerAddress);
+
+        if (isCreatorRegistered[3]) {
+            console.log('Creator already registered')
+            alert('You are already registered, go create a NFT!')
+        }
+    }
 
     // Using Web3 JS
 
@@ -74,19 +97,14 @@ export default function register() {
             // console.log(provider)
 
 
-            // Get Signer Address
-            const signer = provider.getSigner();
-            const accountAddress = await signer.getAddress();
-
-
-            console.log('currentAccount=', accountAddress)
-            setWalletAddress(accountAddress)
+            checkIfAlreadyRegistered()
 
 
             // Handle if the account is changed
             window.ethereum.on('accountsChanged', (account) => {
                 console.log('changed Account=', account[0])
                 setWalletAddress(account[0])
+                checkIfAlreadyRegistered()
             })
 
             // Handle Chain change from Rinkeby

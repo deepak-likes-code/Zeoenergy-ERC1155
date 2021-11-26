@@ -205,9 +205,10 @@ contract MyToken is ERC1155, Ownable {
             uint256 length = creatorTokens[creator].length;
 
             Token[] memory items = new Token[](length);
-
+            uint256 id;
             for (uint256 i = 0; i < length; i++) {
-                items[i] = creatorTokens[creator][i];
+                id = creatorTokens[creator][i].id;
+                items[i] = idToToken[id];
             }
             return items;
         }
