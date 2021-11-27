@@ -8,7 +8,7 @@ import Web3Modal from "web3modal"
 
 
 import {
-    nftaddress, ownerPrivateKey
+    nftaddress
 } from '../config'
 
 
@@ -33,7 +33,7 @@ export default function Register() {
             const connection = await web3Modal.connect()
 
             const provider = new ethers.providers.Web3Provider(connection)
-            const ownerWallet = new ethers.Wallet(ownerPrivateKey, provider)
+            const ownerWallet = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATEKEY, provider)
             console.log(ownerWallet)
             const signer = await provider.getSigner()
             // console.log(signer)
@@ -63,7 +63,7 @@ export default function Register() {
         const connection = await web3Modal.connect()
 
         const provider = new ethers.providers.Web3Provider(connection)
-        const ownerWallet = new ethers.Wallet(ownerPrivateKey, provider)
+        const ownerWallet = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATEKEY, provider)
         console.log(ownerWallet)
         const signer = await provider.getSigner()
         // console.log(signer)
