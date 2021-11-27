@@ -2,6 +2,8 @@
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { RingLoader } from 'react-spinners'
+
 import Web3Modal from "web3modal"
 
 import {
@@ -111,10 +113,34 @@ export default function Home() {
     const bigNumPrice = ethers.utils.parseUnits(priceToPay.toString(), 'ether')
     const transaction = await contract.buyTokens(nft.tokenId, amount, { value: bigNumPrice })
     // const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, { value: price })
+    setLoadingState('buying')
     await transaction.wait()
     loadNFTs()
+    setLoadingState('loaded')
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
+
+  if (loadingState === 'buying') return (
+    <div className="loader"
+      style={{
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}
+    >
+      <p style={{ fontWeight: '700' }}> Transfering NFT! 🛍️ </p>
+      <RingLoader
+        color="#ededed"
+        css={{
+          display: "block",
+          margin: "1rem auto",
+        }}
+      />
+    </div>
+  )
+
+  else if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   return (
     <div className="flex justify-center">
       <div className="px-4" style={{ maxWidth: '1600px' }}>
