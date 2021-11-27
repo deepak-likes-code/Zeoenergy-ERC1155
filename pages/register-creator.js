@@ -2,7 +2,7 @@ import { ethers, Signer } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
-import { useRouter } from 'next/router'
+
 
 
 
@@ -16,7 +16,7 @@ import NFT from '../artifacts/contracts/NFT.sol/MyToken.json'
 
 export default function Register() {
 
-    const Router = useRouter();
+
 
     const [creatorName, setCreatorName] = useState("");
     const [walletAddress, setWalletAddress] = useState("")
@@ -50,7 +50,7 @@ export default function Register() {
                 const register = await contract.registerCreator(signerAddress, creatorName);
                 console.log(register);
                 console.log("New creator registered")
-                Router.push('/create-item')
+                alert("Yaay ! 🥳 You're registered , go create your NFT")
 
             }
         }
