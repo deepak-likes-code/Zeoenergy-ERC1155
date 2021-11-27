@@ -14,10 +14,10 @@ import {
 
 import NFT from '../artifacts/contracts/NFT.sol/MyToken.json'
 
-export default function register() {
+export default function Register() {
 
+    const Router = useRouter();
 
-    const router = useRouter();
     const [creatorName, setCreatorName] = useState("");
     const [walletAddress, setWalletAddress] = useState("")
 
@@ -50,7 +50,7 @@ export default function register() {
                 const register = await contract.registerCreator(signerAddress, creatorName);
                 console.log(register);
                 console.log("New creator registered")
-                router.push('/create-item')
+                Router.push('/create-item')
 
             }
         }
